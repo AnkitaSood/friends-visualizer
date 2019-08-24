@@ -1,50 +1,48 @@
 <div class="container">
-  <form [formGroup]="personalInfoForm" class="form">
-    <div>
+  <mat-card>
+    <form #form="ngForm" [formGroup]="personalInfoForm" class="form" (ngSubmit)="formSubmit()">
+      <div>Profile:</div>
+      <div class="form-row">
+        <mat-form-field appearance="standard">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName">
+        </mat-form-field>
+      </div>
 
-      <mat-form-field appearance="standard">
-        <mat-label>First Name</mat-label>
-        <input matInput placeholder="Enter first name" formControlName="firstName">
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-      <mat-form-field appearance="standard">
-        <mat-label>Last Name</mat-label>
-        <input matInput placeholder="Enter last name" formControlName="lastName">
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </div>
+      <div class="form-row">
+        <mat-form-field appearance="standard">
+          <mat-label>Age</mat-label>
+          <input matInput formControlName="age">
+        </mat-form-field>
+        <mat-form-field appearance="standard">
+          <mat-label>Weight</mat-label>
+          <input matInput formControlName="weight"/>
+        </mat-form-field>
+      </div>
 
-    <div>
-      <mat-form-field appearance="standard">
-        <mat-label>Age</mat-label>
-        <input matInput placeholder="Enter age" formControlName="age">
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </div>
 
-    <div>
-      <mat-form-field appearance="standard">
-        <mat-label>Weight</mat-label>
-        <input matInput placeholder="Enter weight" formControlName="weight"/>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </div>
-
-    <div formArrayName="friends">Friends:
-      <div *ngFor="let friend of friends.controls; let i=index">
-        <div [formGroupName]="i">
-          <mat-form-field appearance="standard">
-            <mat-label>First Name</mat-label>
-            <input matInput formControlName="friendsFirstName" placeholder="Friend's first name">
-          </mat-form-field>
-          <mat-form-field appearance="standard">
-            <mat-label>Last Name</mat-label>
-            <input matInput formControlName="friendsLastName" placeholder="Friend's last name">
-          </mat-form-field>
+      <div *ngIf="friends.controls.length > 0" formArrayName="friends">Friends:
+        <div *ngFor="let friend of friends.controls; let i=index">
+          <div class="form-row" [formGroupName]="i">
+            <mat-form-field appearance="standard">
+              <mat-label>First Name</mat-label>
+              <input matInput formControlName="friendsFirstName">
+            </mat-form-field>
+            <mat-form-field appearance="standard">
+              <mat-label>Last Name</mat-label>
+              <input matInput formControlName="friendsLastName">
+            </mat-form-field>
+          </div>
         </div>
       </div>
-    </div>
-    <button (click)="addFriends(friends.controls[friends.controls.length - 1])"> Add More Friends</button>
-    <button type="submit" [disabled]="! personalInfoForm.valid">Submit</button>
-  </form>
+      <div class="form-row">
+        <button mat-raised-button type="button" (click)="addFriends(friends.controls[0])">Add More Friends</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="! personalInfoForm.valid">Submit</button>
+      </div>
+    </form>
+  </mat-card>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {DataStoreService} from '../data-store.service';
 
 @Component({
   selector: 'app-visual',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualComponent implements OnInit {
 
-  constructor() { }
+  constructor(private store: DataStoreService) { }
 
   ngOnInit() {
   }

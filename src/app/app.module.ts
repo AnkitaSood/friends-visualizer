@@ -5,27 +5,41 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule} from './material/material.module';
 import { AppComponent } from './app.component';
-import { StoreModule} from '@ngrx/store';
 import { VisualComponent } from './visual/visual.component';
 import { DataFormComponent } from './data-form/data-form.component';
 import { HeaderComponent } from './header/header.component';
+import { DummyComponent } from './dummy/dummy.component';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule, Routes} from '@angular/router';
 
+
+const appRoutes: Routes = [
+  { path: '', component: DataFormComponent },
+  { path: 'users',      component: DataFormComponent },
+  { path: 'users/:id',      component: VisualComponent },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
     VisualComponent,
     DataFormComponent,
-    HeaderComponent
+    HeaderComponent,
+    DummyComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MaterialModule,
-    StoreModule.forRoot({})
+    HttpClientModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false } // <-- debugging purposes only
+    )
   ],
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

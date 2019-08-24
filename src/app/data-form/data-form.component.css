@@ -1,7 +1,9 @@
-/*div, input, button {
-  margin: 20px;
-}
-
 .container {
-  padding: 50px;
-}*/
+  width: 500px;
+  margin: 10px auto;
+}
+.form-row {
+  justify-content: space-evenly;
+  display: flex;
+  width: 500px;
+}

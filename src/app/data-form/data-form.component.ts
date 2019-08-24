@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DataStoreService, Person} from '../data-store.service';
 
 @Component({
   selector: 'app-data-form',
@@ -7,11 +8,11 @@ import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@a
   styleUrls: ['./data-form.component.css']
 })
 export class DataFormComponent implements OnInit {
-
+  @ViewChild('form', {static: true}) form;
   personalInfoForm: FormGroup;
   title = 'Visualizer';
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private store: DataStoreService) {
   }
 
   ngOnInit() {
@@ -26,8 +27,8 @@ export class DataFormComponent implements OnInit {
       weight: ['', Validators.required],
       friends: this.formBuilder.array([
         this.formBuilder.group({
-          friendsFirstName: ['', Validators.required],
-          friendsLastName: ['', Validators.required]
+          friendsFirstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+          friendsLastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
         })
       ])
     });
@@ -44,10 +45,15 @@ export class DataFormComponent implements OnInit {
 
     (friend as FormGroup).disable({onlySelf: true});
 
-    this.friends.controls.push(this.formBuilder.group({
-      friendsFirstName: ['', Validators.required],
-      friendsLastName: ['', Validators.required]
+    this.friends.controls.unshift(this.formBuilder.group({
+      friendsFirstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+      friendsLastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
     }));
   }
 
+  formSubmit() {
+    const newUser: Person = this.personalInfoForm.getRawValue();
+    this.store.upsertPerson(newUser);
+    this.form.resetForm();
+  }
 }
