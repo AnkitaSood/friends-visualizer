@@ -30,11 +30,11 @@
           <div class="form-row" [formGroupName]="i">
             <mat-form-field appearance="standard">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="friendsFirstName">
+              <input matInput formControlName="firstName">
             </mat-form-field>
             <mat-form-field appearance="standard">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="friendsLastName">
+              <input matInput formControlName="lastName">
             </mat-form-field>
           </div>
         </div>
@@ -45,4 +45,25 @@
       </div>
     </form>
   </mat-card>
+  <br/>
+  <mat-card>
+    user list
+    <mat-list>
+      <mat-list-item *ngFor="let user of users$ | async">
+<!--        <mat-icon matListIcon>folder</mat-icon>-->
+        <h5>
+          {{user.lastName}}, {{user.firstName}}
+        </h5>
+
+        <button mat-icon-button (click)="editUser(user)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button type="button" *ngIf="user.age"  mat-icon-button color="primary" [routerLink]="['/users', user.id]">
+          <mat-icon>perm_identity</mat-icon>
+        </button>
+
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+
 </div>

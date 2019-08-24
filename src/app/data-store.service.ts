@@ -1,19 +1,26 @@
 import { Injectable } from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStoreService {
-  private users: Person[];
+  private _users: Person[];
+  private _usersSubject: BehaviorSubject<Person[]>;
   private userIndex = 1;
 
 
   constructor() {
-    this.users = [];
+    this._users =  [];
+    this._usersSubject = new BehaviorSubject<Person[]>(this._users);
   }
 
-  getPerson(): Person {
-    return null;
+  get users$(): Observable<Person[]> {
+    return this._usersSubject.asObservable();
+  }
+
+  getPerson(id: number): Person {
+    return this._users.find(u => u.id === id);
   }
 
   upsertPerson(person: Person): Person {
@@ -22,9 +29,9 @@ export class DataStoreService {
 
     if (!person.id) {
       person.id = this.userIndex++;
-      this.users.push(person);
+      this._users.push(person);
     } else {
-      const user = this.users.find((u: Person) => u.id === person.id);
+      const user = this._users.find((u: Person) => u.id === person.id);
       Object.assign(user, person);
       person = user;
     }
@@ -38,11 +45,12 @@ export class DataStoreService {
       this.upsertPerson(f);
     });
 
+    this._usersSubject.next(this._users);
     return person;
   }
 
   findPeople(query: string): Person[] {
-    return this.users.filter((user: Person) => user.firstName.search(query) || user.lastName.search(query));
+    return this._users.filter((user: Person) => user.firstName.search(query) || user.lastName.search(query));
   }
 
   addFriend(friend: Person): void {  }

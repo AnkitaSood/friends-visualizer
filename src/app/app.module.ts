@@ -11,12 +11,13 @@ import { HeaderComponent } from './header/header.component';
 import { DummyComponent } from './dummy/dummy.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
+import {ProfileComponent} from './data-form/profile.component';
 
 
 const appRoutes: Routes = [
   { path: '', component: DataFormComponent },
   { path: 'users',      component: DataFormComponent },
-  { path: 'users/:id',      component: VisualComponent },
+  { path: 'users/:id',      component: ProfileComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -26,7 +27,8 @@ const appRoutes: Routes = [
     VisualComponent,
     DataFormComponent,
     HeaderComponent,
-    DummyComponent
+    DummyComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
