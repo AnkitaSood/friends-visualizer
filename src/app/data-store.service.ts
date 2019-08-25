@@ -2,6 +2,15 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 
+@Injectable({providedIn: 'root'})
+export class InitialDataService {
+  constructor(private httpClient: HttpClient) {}
+
+  getInitialData(): Observable<Person[]> {
+    return this.httpClient.get<Person[]>('assets/data.json');
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +20,7 @@ export class DataStoreService {
   private userIndex = 1;
 
 
-  constructor(private http: HttpClient) {
+  constructor(private initialDataService: InitialDataService) {
     this._users = [];
     this._usersSubject = new BehaviorSubject<Person[]>(this._users);
 
@@ -19,8 +28,7 @@ export class DataStoreService {
   }
 
   private loadInitialData(): void {
-    this.http.get<Person[]>('assets/data.json').subscribe(res => {
-      // res;
+    this.initialDataService.getInitialData().subscribe(res => {
       const userMap = {};
       res.forEach(u => {
         userMap[u.id] = u;
@@ -99,3 +107,5 @@ export interface Person {
   weight?: number;
   friends?: Person[];
 }
+
+

@@ -40,11 +40,14 @@ export class DataFormComponent implements OnInit {
   }
 
   private getFriendFormGroup() {
-    return this.formBuilder.group({
+    const friendGroup = this.formBuilder.group({
       id: [''],
       firstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
       lastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
     });
+    friendGroup.disable({onlySelf: true});
+
+    return friendGroup;
   }
 
   get friends() {
@@ -67,7 +70,6 @@ export class DataFormComponent implements OnInit {
 
     const formArray = (this.personalInfoForm.controls.friends as FormArray);
     formArray.clear();
-    // formArray.push(this.getFriendFormGroup());
 
     for (let i = 0; i < (user.friends || []).length; i++) {
       const controlGroup = this.getFriendFormGroup();
