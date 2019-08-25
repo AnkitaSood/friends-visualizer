@@ -46,24 +46,22 @@
       </div>
     </form>
   </mat-card>
-  <br/>
-  <mat-card *ngIf="(users$ | async)?.length > 0">
-    <mat-card-title>All Users: </mat-card-title>
+  <div *ngIf="(users$ | async)?.length > 0" class="user-list">
+  <mat-card >
+    <mat-label>All Users:</mat-label>
     <mat-list>
-      <mat-list-item *ngFor="let user of users$ | async">
-        <h5>
-          {{user.lastName}}, {{user.firstName}} ({{user.friends?.length}})
-        </h5>
-
-        <button mat-icon-button (click)="editUser(user)">
-          <mat-icon>edit</mat-icon>
-        </button>
+      <mat-list-item *ngFor="let user of users$ | async" class="user-links">
         <button type="button" mat-icon-button color="primary" [routerLink]="['/users', user.id]">
           <mat-icon>perm_identity</mat-icon>
         </button>
-
+        <h5 class="user-name">
+          {{user.lastName}}, {{user.firstName}} ({{user.friends?.length}})
+        </h5>
+        <button mat-icon-button (click)="editUser(user)">
+          <mat-icon >edit</mat-icon>
+        </button>
       </mat-list-item>
     </mat-list>
   </mat-card>
-
+  </div>
 </div>

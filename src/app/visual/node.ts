@@ -34,7 +34,7 @@ export class Node implements d3.SimulationNodeDatum {
   }
 
   get fontSize() {
-    return (30 * this.normal() + 20) + 'px';
+    return (10 * this.normal() + 10) + 'px';
   }
 
   get color() {

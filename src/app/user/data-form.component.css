@@ -2,8 +2,21 @@
   width: 500px;
   margin: 10px auto;
 }
+
 .form-row {
   justify-content: space-evenly;
   display: flex;
   width: 500px;
+}
+
+.user-list {
+  margin-top: 20px;
+}
+
+.user-links {
+  display: flex;
+}
+
+.user-name {
+  flex-grow: 2;
 }

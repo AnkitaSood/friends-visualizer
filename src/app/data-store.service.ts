@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,32 @@ export class DataStoreService {
   private userIndex = 1;
 
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this._users = [];
     this._usersSubject = new BehaviorSubject<Person[]>(this._users);
+
+    this.loadInitialData();
+  }
+
+  private loadInitialData(): void {
+    this.http.get<Person[]>('assets/data.json').subscribe(res => {
+      // res;
+      const userMap = {};
+      res.forEach(u => {
+        userMap[u.id] = u;
+      });
+      res.forEach(u => {
+        const friends = u.friends;
+        u.friends = [];
+        friends.forEach(f => {
+          u.friends.push(userMap[f.id]);
+        });
+      });
+
+      this._users = res;
+      this.userIndex = res.length + 1;
+      this._usersSubject.next(this._users);
+    });
   }
 
   get users$(): Observable<Person[]> {
@@ -30,6 +54,7 @@ export class DataStoreService {
       const potentialDuplicate: Person = this._users.find(u => u.firstName === f.firstName && u.lastName === f.lastName);
       if (potentialDuplicate) {
         person.friends[i] = potentialDuplicate;
+        person.friends[i].friends.push(person);
       }
     }
 

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataStoreService, Person} from '../data-store.service';
+import { Person} from '../data-store.service';
 import {ForceDirectedGraph} from './force-directed-graph';
 import { Node } from './node';
 import {Link} from './link';
@@ -14,14 +14,13 @@ export class VisualComponent implements OnInit {
   graph: ForceDirectedGraph;
   nodes: Node[] = [];
   links: Link[] = [];
-  constructor(private store: DataStoreService) { }
+  constructor() { }
 
   ngOnInit() {
 
     const me = this;
     this.nodes.push(this.createNode(this.currentUser.id, this.currentUser));
 
-    console.log(this.currentUser);
     this.currentUser.friends.forEach(f => {
       const node = me.createNode(f.id, me.currentUser);
       node.linkCount = f.friends.length;

@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "firstName": "Amelia",
+    "lastName": "Alderson",
+    "age": 30,
+    "weight": 65,
+    "friends": [
+      {
+        "id": 2
+      },
+      {
+        "id": 3
+      },
+      {
+        "id": 4
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "firstName": "Bertha",
+    "lastName": "Bowen",
+    "age": 21,
+    "weight": 75,
+    "friends": [
+      {
+        "id": 1
+      },
+      {
+        "id": 4
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "Cheryl",
+    "lastName": "Coyle",
+    "age": 55,
+    "weight": 87,
+    "friends": [
+      {
+        "id": 1
+      },
+      {
+        "id": 4
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "firstName": "Deborah",
+    "lastName": "Dyson",
+    "age": 25,
+    "weight": 55,
+    "friends": [
+      {
+        "id": 1
+      },
+      {
+        "id": 2
+      },
+      {
+        "id": 3
+      }
+    ]
+  }
+]
