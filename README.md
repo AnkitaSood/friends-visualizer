@@ -1,5 +1,11 @@
 # Visualizer
 
+* The app loads with a list of initial users.   
+* Add more users using the form.  
+* Click on the user profile icon to the left of the user name to see user details and visual representation of user's friends. The graph has been generated using d3js. Click on any of the user bubbles to view their detailed information.   
+* Click on the 'Friends Visualizer' in the title bar to go back to the home screen/form.  
+* Click on the edit button next to the user name to edit their information.
+
 ## Code Structure
 * `src`   
     * `app`  
