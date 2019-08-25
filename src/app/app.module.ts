@@ -5,13 +5,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule} from './material/material.module';
 import { AppComponent } from './app.component';
-import { VisualComponent } from './visual/visual.component';
-import { DataFormComponent } from './data-form/data-form.component';
+import { DataFormComponent } from './user/data-form.component';
 import { HeaderComponent } from './header/header.component';
-import { DummyComponent } from './dummy/dummy.component';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
-import {ProfileComponent} from './data-form/profile.component';
+import {ProfileComponent} from './user/profile.component';
+import {VisualModule} from './visual/visual.module';
 
 
 const appRoutes: Routes = [
@@ -24,10 +23,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    VisualComponent,
     DataFormComponent,
     HeaderComponent,
-    DummyComponent,
     ProfileComponent
   ],
   imports: [
@@ -39,7 +36,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
-    )
+    ),
+    VisualModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

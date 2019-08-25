@@ -1,1 +1,6 @@
-<p>visual works!</p>
+<svg #svg [attr.width]="800" [attr.height]="600">
+  <g>
+    <g [linkVisual]="link" *ngFor="let link of links"></g>
+    <g [nodeVisual]="node" *ngFor="let node of nodes" ></g>
+  </g>
+</svg>

@@ -25,7 +25,7 @@
       </div>
 
 
-      <div *ngIf="friends.controls.length > 0" formArrayName="friends">Friends:
+      <div formArrayName="friends">Friends:
         <div *ngFor="let friend of friends.controls; let i=index">
           <div class="form-row" [formGroupName]="i">
             <mat-form-field appearance="standard">
@@ -42,23 +42,23 @@
       <div class="form-row">
         <button mat-raised-button type="button" (click)="addFriends(friends.controls[0])">Add More Friends</button>
         <button mat-raised-button color="primary" type="submit" [disabled]="! personalInfoForm.valid">Submit</button>
+        <button mat-button color="primary" type="button" (click)="formReset()">Reset</button>
       </div>
     </form>
   </mat-card>
   <br/>
-  <mat-card>
-    user list
+  <mat-card *ngIf="(users$ | async)?.length > 0">
+    <mat-card-title>All Users: </mat-card-title>
     <mat-list>
       <mat-list-item *ngFor="let user of users$ | async">
-<!--        <mat-icon matListIcon>folder</mat-icon>-->
         <h5>
-          {{user.lastName}}, {{user.firstName}}
+          {{user.lastName}}, {{user.firstName}} ({{user.friends?.length}})
         </h5>
 
         <button mat-icon-button (click)="editUser(user)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button type="button" *ngIf="user.age"  mat-icon-button color="primary" [routerLink]="['/users', user.id]">
+        <button type="button" mat-icon-button color="primary" [routerLink]="['/users', user.id]">
           <mat-icon>perm_identity</mat-icon>
         </button>
 

@@ -11,7 +11,7 @@ export class DataStoreService {
 
 
   constructor() {
-    this._users =  [];
+    this._users = [];
     this._usersSubject = new BehaviorSubject<Person[]>(this._users);
   }
 
@@ -23,9 +23,23 @@ export class DataStoreService {
     return this._users.find(u => u.id === id);
   }
 
+  private normalizeFriends(person: Person) {
+
+    for (let i = 0; i < (person.friends || []).length; i ++) {
+      const f = person.friends[i];
+      const potentialDuplicate: Person = this._users.find(u => u.firstName === f.firstName && u.lastName === f.lastName);
+      if (potentialDuplicate) {
+        person.friends[i] = potentialDuplicate;
+      }
+    }
+
+  }
+
   upsertPerson(person: Person): Person {
 
     person.friends = person.friends || [];
+
+    this.normalizeFriends(person);
 
     if (!person.id) {
       person.id = this.userIndex++;
@@ -40,6 +54,7 @@ export class DataStoreService {
       if (f.id) {
         return;
       }
+
       f.friends = f.friends || [];
       f.friends.push(person);
       this.upsertPerson(f);
@@ -48,12 +63,6 @@ export class DataStoreService {
     this._usersSubject.next(this._users);
     return person;
   }
-
-  findPeople(query: string): Person[] {
-    return this._users.filter((user: Person) => user.firstName.search(query) || user.lastName.search(query));
-  }
-
-  addFriend(friend: Person): void {  }
 
 }
 

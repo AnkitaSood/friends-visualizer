@@ -1,0 +1,10 @@
+<div class="container">
+<mat-card *ngIf="user$ | async as user">
+  <mat-card-title>{{user.lastName | uppercase}} , {{user.firstName | uppercase}} </mat-card-title>
+  <mat-card-subtitle *ngIf="user.age">Age: {{user.age}} years</mat-card-subtitle>
+  <mat-card-subtitle *ngIf="user.weight">Weight: {{user.weight}} lbs</mat-card-subtitle>
+  <mat-card-content>
+    <app-visual [currentUser]="user"></app-visual>
+  </mat-card-content>
+</mat-card>
+</div>

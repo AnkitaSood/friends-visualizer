@@ -29,17 +29,21 @@ export class DataFormComponent implements OnInit {
   private getPersonalInfoForm() {
     return this.formBuilder.group({
       id: [''],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      age: ['', Validators.required],
-      weight: ['', Validators.required],
+      firstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+      lastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+      age: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]) ],
+      weight: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.min(1)]) ],
       friends: this.formBuilder.array([
-        this.formBuilder.group({
-          id: [''],
-          firstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-          lastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
-        })
+        (this.getFriendFormGroup())
       ])
+    });
+  }
+
+  private getFriendFormGroup() {
+    return this.formBuilder.group({
+      id: [''],
+      firstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
+      lastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
     });
   }
 
@@ -54,15 +58,22 @@ export class DataFormComponent implements OnInit {
 
     (friend as FormGroup).disable({onlySelf: true});
 
-    this.friends.controls.unshift(this.formBuilder.group({
-      firstName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])],
-      lastName: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')])]
-    }));
+    this.friends.controls.unshift(this.getFriendFormGroup());
   }
 
   editUser(user: Person): void {
     this.personalInfoForm = this.getPersonalInfoForm();
     this.personalInfoForm.patchValue(user);
+
+    const formArray = (this.personalInfoForm.controls.friends as FormArray);
+    formArray.clear();
+    // formArray.push(this.getFriendFormGroup());
+
+    for (let i = 0; i < (user.friends || []).length; i++) {
+      const controlGroup = this.getFriendFormGroup();
+      controlGroup.patchValue(user.friends[i]);
+      formArray.push(controlGroup);
+    }
   }
 
   formSubmit() {
@@ -70,7 +81,11 @@ export class DataFormComponent implements OnInit {
     newUser.friends = newUser.friends.filter(f => f.firstName && f.lastName);
 
     this.store.upsertPerson(newUser);
-    this.form.resetForm();
+    this.formReset();
     this.personalInfoForm = this.getPersonalInfoForm();
+  }
+
+  formReset() {
+    this.form.resetForm();
   }
 }

@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {StoreModule} from '@ngrx/store';
+import {NodeVisualComponent} from './node-visual.component';
+import {VisualComponent} from './visual.component';
+import {LinkVisualComponent} from './link-visual.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NodeVisualComponent,
+    LinkVisualComponent,
+    VisualComponent
+  ],
+  exports: [
+    VisualComponent
+  ],
   imports: [
     CommonModule,
-    StoreModule.forFeature('visualizer', {})
-
   ]
 })
 
