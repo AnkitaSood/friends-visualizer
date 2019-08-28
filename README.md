@@ -12,7 +12,8 @@
         * `header`  : header component 
         * `user`    : service and models for managing user information
         * `visual`  : components for rendering svg snippets on page using d3
-        * `assets/data.json`    : data containing initial seed values of users and their friends
+    * `assets/data.json`    : data containing initial seed values of users and their friends
+    * `data-store.service.ts`   : service for handling all user data
         
 
 ## Assumptions
